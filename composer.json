@@ -1,0 +1,11 @@
+{
+  "name": "open-y-subprojects/openy_focal_point",
+  "description": "Open Y focal point implementation and enchancements.",
+  "type": "drupal-module",
+  "require": {
+    "ymcatwincities/openy": "*",
+    "drupal/focal_point": "1.5"
+  },
+  "license": "GPL-2.0+",
+  "minimum-stability": "dev"
+}
