@@ -3,7 +3,6 @@
   "description": "Open Y focal point implementation and enchancements.",
   "type": "drupal-module",
   "require": {
-    "ymcatwincities/openy": "*",
     "drupal/focal_point": "1.5 || ^2.0"
   },
   "license": "GPL-2.0+",
