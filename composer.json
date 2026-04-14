@@ -3,7 +3,8 @@
   "description": "Open Y focal point implementation and enchancements.",
   "type": "drupal-module",
   "require": {
-    "drupal/focal_point": "1.5 || ^2.0"
+    "drupal/focal_point": "1.5 || ^2.0",
+    "drupal/svg_image": "^3.2"
   },
   "license": "GPL-2.0+",
   "minimum-stability": "dev"

@@ -3,6 +3,7 @@
 namespace Drupal\openy_focal_point\Plugin\Field\FieldWidget;
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\focal_point\Plugin\Field\FieldWidget\FocalPointImageWidget;
 use Drupal\Core\Url;
@@ -25,6 +26,34 @@ use Drupal\Core\Url;
  * )
  */
 class OpenYFocalPointImageWidget extends FocalPointImageWidget {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state): array {
+    $element = parent::formElement($items, $delta, $element, $form, $form_state);
+
+    $field_extensions = $this->getFieldSetting('file_extensions');
+    if (!in_array('svg', explode(' ', $field_extensions ?? ''))) {
+      return $element;
+    }
+
+    // ImageWidget::formElement() intersects file_extensions with the image
+    // toolkit's supported extensions. GD does not support SVG, so svg gets
+    // stripped out even when it is listed in the field settings. Re-add it and
+    // remove the FileIsImage validator so SVG files can be uploaded.
+    unset($element['#upload_validators']['FileIsImage']);
+
+    if (isset($element['#upload_validators']['FileExtension']['extensions'])) {
+      $current = explode(' ', $element['#upload_validators']['FileExtension']['extensions']);
+      if (!in_array('svg', $current)) {
+        $current[] = 'svg';
+        $element['#upload_validators']['FileExtension']['extensions'] = implode(' ', $current);
+      }
+    }
+
+    return $element;
+  }
 
   /**
    * Create the preview link form element.
