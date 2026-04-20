@@ -1,0 +1,3 @@
+field.widget.settings.openy_image_focal_point:
+  type: field.widget.settings.image_focal_point
+  label: 'OpenY Image (Focal Point) widget settings'
