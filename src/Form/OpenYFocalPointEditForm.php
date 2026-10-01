@@ -2,6 +2,7 @@
 
 namespace Drupal\openy_focal_point\Form;
 
+use Drupal\Component\Utility\DeprecationHelper;
 use Drupal\Component\Utility\Random;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseDialogCommand;
@@ -228,7 +229,7 @@ class OpenYFocalPointEditForm extends FormBase {
 
     $focal_point_manager->saveCropEntity($x, $y, $width, $height, $crop);
 
-    image_path_flush($image->getSource());
+    DeprecationHelper::backwardsCompatibleCall(\Drupal::VERSION, '11.4.0', fn() => \Drupal::service('Drupal\image\ImageDerivativeUtilities')->pathFlush($image->getSource()), fn() => image_path_flush($image->getSource()));
 
     // We are getting an error about Outdated form. For some reason that happens
     // when there are multiple ajax forms in dialogs. Lets clean it up.

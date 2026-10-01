@@ -2,6 +2,7 @@
 
 namespace Drupal\openy_focal_point\Controller;
 
+use Drupal\Component\Utility\DeprecationHelper;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -107,7 +108,7 @@ class OpenYFocalPointPreviewController extends FocalPointPreviewController {
     // flush the old one. This should not be a performance hit since there is
     // no good reason for anyone to preview an image unless they are changing
     // the focal point value.
-    image_path_flush($image->getSource());
+    DeprecationHelper::backwardsCompatibleCall(\Drupal::VERSION, '11.4.0', fn() => \Drupal::service('Drupal\image\ImageDerivativeUtilities')->pathFlush($image->getSource()), fn() => image_path_flush($image->getSource()));
 
     $form = \Drupal::formBuilder()->getForm($form_class_name, $file, $style, $focal_point_value);
     $html = $this->renderer->render($form);

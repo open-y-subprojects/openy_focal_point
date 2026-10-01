@@ -2,6 +2,7 @@
 
 namespace Drupal\openy_focal_point\Form;
 
+use Drupal\Component\Utility\DeprecationHelper;
 use Drupal\Component\Utility\Random;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseDialogCommand;
@@ -164,7 +165,7 @@ class OpenYFocalPointCropForm extends FormBase {
     }
 
     $image = \Drupal::service('image.factory')->get($file->getFileUri());
-    image_path_flush($image->getSource());
+    DeprecationHelper::backwardsCompatibleCall(\Drupal::VERSION, '11.4.0', fn() => \Drupal::service('Drupal\image\ImageDerivativeUtilities')->pathFlush($image->getSource()), fn() => image_path_flush($image->getSource()));
 
     $ajax = new AjaxResponse();
     $ajax->addCommand(new RerenderThumbnailCommand('.focal-point-derivative-preview-image'));
@@ -186,7 +187,7 @@ class OpenYFocalPointCropForm extends FormBase {
     }
 
     $image = \Drupal::service('image.factory')->get($file->getFileUri());
-    image_path_flush($image->getSource());
+    DeprecationHelper::backwardsCompatibleCall(\Drupal::VERSION, '11.4.0', fn() => \Drupal::service('Drupal\image\ImageDerivativeUtilities')->pathFlush($image->getSource()), fn() => image_path_flush($image->getSource()));
 
     $ajax = new AjaxResponse();
     $ajax->addCommand(new CloseDialogCommand());
