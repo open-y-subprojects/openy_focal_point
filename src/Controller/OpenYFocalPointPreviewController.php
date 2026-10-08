@@ -73,7 +73,7 @@ class OpenYFocalPointPreviewController extends FocalPointPreviewController {
   }
 
   public function getFocalPointImageStyle() {
-    $style = $this->request->get('image_style');
+    $style = $this->request->query->get('image_style');
     return $this->entityTypeManager()->getStorage('image_style')->load($style);
   }
 
