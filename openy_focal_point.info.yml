@@ -4,5 +4,9 @@ description: Custom widget for Focal point.
 package: YMCA Website Services
 core_version_requirement: ^10 || ^11 || ^12
 dependencies:
+  - crop:crop
+  - drupal:file
+  - drupal:image
+  - focal_point:focal_point
   - image_widget_crop:image_widget_crop
   - svg_image:svg_image

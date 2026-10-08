@@ -20,3 +20,36 @@ function openy_focal_point_install() {
     $config->save();
   }
 }
+
+/**
+ * Implements hook_update_N().
+ *
+ * Enables dependencies that were declared after this module was installed.
+ *
+ * Drupal only installs a module's dependencies at install time. Dependencies
+ * added to openy_focal_point.info.yml later are never installed on sites that
+ * already have this module enabled, and nothing in core validates that gap
+ * afterwards, so the site keeps running until an unrelated config import or
+ * module install fails on the missing module.
+ */
+function openy_focal_point_update_10001() {
+  $dependencies = [
+    'crop',
+    'focal_point',
+    'image_widget_crop',
+    'svg_image',
+  ];
+
+  $module_handler = \Drupal::moduleHandler();
+  $missing = array_values(array_filter($dependencies, function ($module) use ($module_handler) {
+    return !$module_handler->moduleExists($module);
+  }));
+
+  if (!$missing) {
+    return 'All openy_focal_point dependencies are already enabled.';
+  }
+
+  \Drupal::service('module_installer')->install($missing);
+
+  return 'Enabled missing openy_focal_point dependencies: ' . implode(', ', $missing) . '.';
+}
